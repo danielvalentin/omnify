@@ -1,5 +1,7 @@
 from PyQt4 import QtGui,QtCore,QtWebKit,Qt
+
 import urllib
+import re
 
 class widget(QtGui.QWidget):
 
@@ -21,7 +23,7 @@ class widget(QtGui.QWidget):
 		self.layout.addWidget(imglabel)
 
 		self.html = ''
-		self.html = self.html + tweet["text"]
+		self.html = self.html + self.linkify(tweet["text"])
 
 		self.tweetText = QtGui.QTextBrowser()
 		self.tweetText.setHtml(QtCore.QString(self.html))
@@ -30,3 +32,8 @@ class widget(QtGui.QWidget):
 		self.tweetText.setFrameStyle(self.tweetText.NoFrame)
 
 		self.layout.addWidget(self.tweetText)
+
+	def linkify(self, text):
+		regex = re.compile(r"\b((https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", re.IGNORECASE)
+		return regex.sub(r'<a href="\1">\1</a>', text)
+
