@@ -1,0 +1,7 @@
+.idea/*
+.omnify
+*.pyc
+*/*.pyc
+
+#testdata
+timeline.tweets

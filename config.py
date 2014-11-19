@@ -1,0 +1,4 @@
+APP_NAME = ''
+APP_KEY = ''
+APP_SECRET = ''
+OWNER_ID = 0
