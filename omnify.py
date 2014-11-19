@@ -12,7 +12,7 @@ class Omnify:
 		self.win = Window.Window()
 		self.twitter = Twitter.Accounts()
 
-		timeline = self.twitter.get_timeline(True)
+		timeline = self.twitter.get_timeline()
 
 		for tweet in timeline:
 			self.win.add_twitter_widget(timeline[tweet])
