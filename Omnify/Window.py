@@ -90,6 +90,7 @@ class Window(QtGui.QMainWindow):
 	def setup_trayicon(self):
 		self.trayIcon = QtGui.QSystemTrayIcon(self)
 		self.trayIcon.setIcon(QtGui.QIcon('resources/img/important.png'))
+		self.trayIcon.activated.connect(self.showHideApp)
 
 		menu = QtGui.QMenu()
 		exitAction = menu.addAction('Quit')
@@ -98,5 +99,14 @@ class Window(QtGui.QMainWindow):
 		self.trayIcon.setContextMenu(menu)
 		self.trayIcon.show()
 
+	def closeEvent(self, QCloseEvent):
+		print('close')
+		QCloseEvent.ignore()
+		self.showHideApp()
 
-
+	def showHideApp(self, reason):
+		if reason != QtGui.QSystemTrayIcon.Context:
+			if self.isHidden():
+				self.show()
+			else:
+				self.hide()

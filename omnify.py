@@ -17,6 +17,7 @@ class Omnify:
 		for tweet in timeline:
 			self.win.add_twitter_widget(timeline[tweet])
 
+		#threading.Timer
 
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
