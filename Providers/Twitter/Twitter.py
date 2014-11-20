@@ -12,6 +12,8 @@ import json
 
 class Accounts:
 
+	since = False
+
 	def __init__(self):
 		self.store = data.Store()
 		self.data = self.get_data()
@@ -38,8 +40,8 @@ class Accounts:
 	def get_accounts(self):
 		return self.data['accounts']
 
-	def get_timeline(self, testData = False):
-		if testData:
+	def get_timeline(self, testdata = False):
+		if testdata:
 			with open('timeline.tweets', 'r') as f:
 				try:
 					timeline = json.load(f)
@@ -48,19 +50,23 @@ class Accounts:
 					print("empty data file exception")
 			f.close()
 			return timeline
+
 		accounts = self.get_accounts()
 		tweets = {}
 		i = 0
 		for account in accounts:
 			if 'oauth_token' in accounts[account] and 'oauth_token_secret' in accounts[account]:
 				api = Twython(config.APP_KEY, config.APP_SECRET, accounts[account]['oauth_token'], accounts[account]['oauth_token_secret'])
-				timeline = api.get_home_timeline(count=10,include_entities=True)
+				tweetcount = 10;
+				if self.since:
+					timeline = api.get_home_timeline(count=tweetcount, since_id=self.since)
+				else:
+					timeline = api.get_home_timeline(count=tweetcount)
 				for tweet in timeline:
 					tweets.update({i:tweet})
-					i = i+1
-		return tweets
-		#if self.is_authed():
-		#	return  self.api.get_home_timeline()
+					i += 1
+					self.since = tweet['id']
+		return timeline
 
 	def add_account(self, account, window):
 		self.data['accounts'].update({account['screen_name']:account})

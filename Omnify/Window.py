@@ -40,9 +40,11 @@ class Window(QtGui.QMainWindow):
 
 		self.show()
 
-	def add_twitter_widget(self, tweet):
-		tst = Tweet.widget(tweet)
-		self.grid.addWidget(tst)
+	def add_twitter_widget(self, tweetjson, notification=False):
+		tweet = Tweet.widget(tweetjson)
+		self.grid.addWidget(tweet)
+		if notification:
+			self.trayIcon.showMessage(QtCore.QString(tweetjson['user']['name']), QtCore.QString(tweetjson['text']))
 
 
 	def center(self):
@@ -100,9 +102,8 @@ class Window(QtGui.QMainWindow):
 		self.trayIcon.show()
 
 	def closeEvent(self, QCloseEvent):
-		print('close')
 		QCloseEvent.ignore()
-		self.showHideApp()
+		self.showHideApp('banana')
 
 	def showHideApp(self, reason):
 		if reason != QtGui.QSystemTrayIcon.Context:

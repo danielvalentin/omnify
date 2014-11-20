@@ -5,8 +5,6 @@ import re
 
 class widget(QtGui.QWidget):
 
-
-
 	def __init__(self, tweet):
 		super(widget, self).__init__()
 
@@ -22,8 +20,10 @@ class widget(QtGui.QWidget):
 		imglabel.setPixmap(pix)
 		self.layout.addWidget(imglabel)
 
-		self.html = ''
-		self.html = self.html + self.linkify(tweet["text"])
+		self.html = self.linkify(tweet["text"])
+		self.html += '<p><small>'
+		self.html += tweet['created_at']
+		self.html += '</small></p>'
 
 		self.tweetText = QtGui.QTextBrowser()
 		self.tweetText.setHtml(QtCore.QString(self.html))
